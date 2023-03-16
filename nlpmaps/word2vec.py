@@ -187,4 +187,4 @@ def accuracy_prediction(data, feature, sentiment, outcome_1, outcome_2,
 
     # Printing the accuracy score
     print('accuracy score of Word2vec model ' + str(acc_score))
-    return None
+    return acc_score
