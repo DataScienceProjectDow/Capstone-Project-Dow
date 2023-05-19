@@ -1,9 +1,13 @@
-# Automatic Selection of Task-Optimal Embedding Models
+# NLPmaps - automatic selection of task-optimal embedding models
 
-When trying to incorporate non-structured information in the model, word-embedding is also a key step in the process. However, it is often non-trivial to select the right word-embedding method to transform text data into numerical representation that can be fed to any modeling frameworks for a task at hand. With new embedding techniques getting actively published, choosing the optimal embedding model also becomes more complicated. Would a simple bag of words or TF-ITF be good enough? Or should a classical embedding (i.e., Word2Vec, fastText, GLOVE) or contextual embeddings (i.e., ELMO, BERT) or even graph representations be applied? Often times, the answer depends on their performances on downstream NLP tasks. For this project, we would like to review the list of possible embedding techniques ranging ranged from complexity level and create a framework that can automatically select the best embedding strategy for a given task. This means the resulting embedding can be any existing/pre-trained models or an ensemble of models or even a transfer-learned model that is trained directly with the task model. The solution is open-ended and depends on what works the best. Potentially, the embedding models can be thought of as a hyperparameter to be tuned for the final task model. Nevertheless, it is critical to come up with certain metrics for selecting such optimal embedding strategy and evaluating the performance of the framework using both standard benchmark dataset and real-world industrial dataset for a variety of different tasks. 
+## Backgroud
 
-There are some existing literatures available (see reference section) on this topic however usually the study only presented the accuracy of the algorithm bench marked on a specific task (i.e. text classification, NER).
+This repository is for a Data Science Capstone Project collaborated between Dow Inc. and University of Washington and associated with course CHEM E 547 offered at UW.
 
-NLP Maps is an algorithm designed to select the optimal word embedding method for a given task. In its final state, it will be able to select an ensemble of embedding methods to determine the best series of embedding methods used. In its current state, several trained models on 
-the IMDB dataset are available to be measured using Word2vec, Bert, ELMO, and Glove embedding methods. The .py scripts in the nlpmaps folder are modular and can be applied to any sentiment analysis task. Demonstrations on how to fine tune the model to a given data set can be found 
-in jupyter notebooks in the examples folder. Further examples of how to implement the py scripts can be found in the examples folder as well. 
+This project is developed by Meenal Rawlani, Andrew Simon and Shijie Zhang.
+
+## Overview
+
+NLP Maps is an algorithm designed to select the optimal word embedding method for a given task. In its final state, it will be able to select an ensemble of embedding methods to determine the best series of embedding methods used. In its current state, several trained models on the IMDB dataset are available to be measured using Word2vec, Bert, ELMO, and Glove embedding methods. The .py scripts in the nlpmaps folder are modular and can be applied to any sentiment analysis task. Demonstrations on how to fine tune the model to a given data set can be found in jupyter notebooks in the examples folder. Further examples of how to implement the py scripts can be found in the examples folder as well. 
+
+## Environment setup and installation
