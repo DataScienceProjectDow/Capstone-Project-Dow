@@ -8,8 +8,8 @@ channels:
 dependencies:
   - pip
   - pip:
-    - tensorflow-text==2.11.*
-    - tf-models-official==2.11.0
+    - tensorflow-text
+    - tf-models-official
     - gensim
     - numpy
     - pandas
