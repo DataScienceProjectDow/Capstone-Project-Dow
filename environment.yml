@@ -2,28 +2,22 @@ name: nlpmaps
 channels:
   - defaults
 dependencies:
-name: my_env
-channels:
-  - defaults
-dependencies:
-  - pip
   - pip:
-    - tensorflow-text
-    - tf-models-official
-    - gensim
-    - numpy
-    - pandas
-    - scikit-learn
-    - matplotlib
-    - seaborn
-    - xgboost
-    - nltk
-    - spacy
-    - keras
-    - tensorflow_hub
-    - tensorflow
-    - datasets
-    - requests
-    - unittest
-
-prefix: /Users/Jlonging/miniconda3/envs/nlpmaps
+      - tensorflow-text
+      - tf-models-official
+      - gensim
+      - numpy
+      - pandas
+      - scikit-learn
+      - matplotlib
+      - seaborn
+      - xgboost
+      - nltk
+      - spacy
+      - keras
+      - tensorflow_hub
+      - tensorflow
+      - datasets
+      - requests
+      - unittest
+      - fasttext
