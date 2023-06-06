@@ -21,3 +21,5 @@ dependencies:
       - requests
       - unittest
       - fasttext
+      - optuna
+      - nltk
