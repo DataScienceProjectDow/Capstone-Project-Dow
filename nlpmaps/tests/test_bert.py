@@ -31,7 +31,4 @@ class GenerateBertEmbeddingsTest(unittest.TestCase):
         self.assertIsInstance(labels, np.ndarray)
         self.assertEqual(embeddings.shape[0], self.df.shape[0])
         self.assertEqual(labels.shape[0], self.df.shape[0])
-        # Add more assertions as needed
-        
-if __name__ == '__main__':
-    unittest.main()
+
