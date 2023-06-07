@@ -4,17 +4,18 @@ from transformers import BertTokenizer, BertModel
 
 def generate_bert_embeddings(df, text_column, label_column):
     """
-    Generate BERT embeddings and labels from a DataFrame.
+    Generate BERT embeddings and labels from a DataFrame using the bert-base-uncased model.
     
     Args:
-        df (pandas.DataFrame): The input DataFrame containing text data and labels.
+        df (pandas.DataFrame): The input DataFrame containing text data.
         text_column (str): The name of the column in df that contains the text data.
         label_column (str): The name of the column in df that contains the labels.
     
     Returns:
-        tuple: A tuple containing the BERT embeddings and labels.
-            - embeddings (torch.Tensor): The BERT embeddings of the text data.
-            - labels (numpy.ndarray): The labels corresponding to the text data.
+        pandas.DataFrame: A new DataFrame containing the BERT embeddings and labels.
+            The new DataFrame has two columns:
+            - 'Embeddings': The BERT embeddings of the text data.
+            - 'Labels': The labels corresponding to the text data.
     """
     text_data = df[text_column].values.tolist()
     labels = df[label_column].values
@@ -32,4 +33,10 @@ def generate_bert_embeddings(df, text_column, label_column):
         outputs = model(**encoded_inputs)
         embeddings = outputs.last_hidden_state
     
-    return embeddings, labels
+    # Create a new DataFrame with embeddings and labels
+    new_df = pd.DataFrame({
+        'Embeddings': embeddings.tolist(),
+        'Labels': labels
+    })
+    
+    return new_df
