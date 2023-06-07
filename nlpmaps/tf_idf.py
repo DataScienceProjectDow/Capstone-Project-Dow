@@ -11,17 +11,20 @@ def generate_tfidf_embeddings(df, text_column, label_column):
         label_column (str): The name of the column in df that contains the labels.
     
     Returns:
-        tuple: A tuple containing the TF-IDF embeddings and labels.
-            - embeddings (scipy.sparse.csr_matrix): The TF-IDF embeddings of the text data.
-            - labels (numpy.ndarray): The labels corresponding to the text data.
+        pandas.DataFrame: A new DataFrame with the TF-IDF embeddings and labels.
     """
     text_data = df[text_column].values.tolist()
     labels = df[label_column].values
     
-    # Create a TF-IDF vectorizer
+    # Initialize the TfidfVectorizer
     vectorizer = TfidfVectorizer()
     
-    # Fit the vectorizer on the text data and transform the data into TF-IDF embeddings
+    # Fit the vectorizer and transform the text data into TF-IDF embeddings
     embeddings = vectorizer.fit_transform(text_data)
     
-    return embeddings, labels
+    # Create a new DataFrame with embeddings and labels
+    embeddings_df = pd.DataFrame(embeddings.toarray())
+    embeddings_df.columns = vectorizer.get_feature_names_out()
+    embeddings_df[label_column] = labels
+    
+    return embeddings_df
