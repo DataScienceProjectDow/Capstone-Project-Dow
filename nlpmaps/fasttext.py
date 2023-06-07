@@ -23,8 +23,7 @@ class FastTextVectorizer:
             for words in X
         ])
 
-def fasttext_embedding(path: str, text_column: str, label_column: str):
-    data = pd.read_excel(path)
+def fasttext_embedding(data, text_column: str, label_column: str):
     
     # Define the URL and the local path
     url = 'https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.en.300.bin.gz'
