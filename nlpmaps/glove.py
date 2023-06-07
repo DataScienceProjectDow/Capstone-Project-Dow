@@ -1,47 +1,11 @@
-"""this module demonstrates using GloVe word embedding method and
-training a IMDB movie reviews dataset"""
-
 # import packages
+import os
 import zipfile
 import urllib.request
-
+import pandas as pd
 import numpy as np
-import sklearn.metrics
-import sklearn.ensemble
-
 from gensim.scripts.glove2word2vec import glove2word2vec
 from gensim.models import KeyedVectors
-
-from datasets import load_dataset
-
-import seaborn as sns
-sns.set_style('whitegrid')
-sns.set_context('talk')
-
-# download pre-trained GloVe vectors from the website
-URL = 'https://nlp.stanford.edu/data/glove.6B.zip'
-FILE_NAME = 'glove.6B.zip'
-urllib.request.urlretrieve(URL, FILE_NAME)
-
-with zipfile.ZipFile(FILE_NAME, 'r') as zip_ref:
-    zip_ref.extractall()
-
-# transfer pre-trained GloVe vectors into word2vec format
-GLOVE_FILE = 'glove.6B.100d.txt'
-WORD2VEC_FILE = GLOVE_FILE + '.word2vec'
-glove2word2vec(GLOVE_FILE, WORD2VEC_FILE)
-
-# load pre-trained GloVe vectors
-glove_model = KeyedVectors.load_word2vec_format(WORD2VEC_FILE, binary=False)
-
-# load IMDB dataset
-df = load_dataset('imdb')
-
-train_text = df['train']['text']
-train_label = df['train']['label']
-
-test_text = df['test']['text']
-test_label = df['test']['label']
 
 # define functions for tokenizing the text data
 class Word2VecVectorizer:
@@ -83,7 +47,7 @@ class Word2VecVectorizer:
             n_count += 1
 
         print("Numer of samples with no words found: %s / %s" % (emptycount,
-        	len(data)))
+            len(data)))
         return x_vec
 
     def fit_transform(self, data):
@@ -92,28 +56,43 @@ class Word2VecVectorizer:
 
         return self.transform(data)
 
-# set a word vectorizer
-vectorizer = Word2VecVectorizer(glove_model)
+def glove_embedding(path: str, text_column: str, label_column: str):
+    data = pd.read_excel(path)
+    
+    url = 'https://nlp.stanford.edu/data/glove.6B.zip'
+    file_name = 'glove.6B.zip'
+    glove_file = 'glove.6B.100d.txt'
+    word2vec_file = glove_file + '.word2vec'
+    
+    # Only download the file if it doesn't already exist
+    if not os.path.exists(file_name):
+        urllib.request.urlretrieve(url, file_name)
 
-# get the sentence embeddings for the train dataset
-train_x = vectorizer.fit_transform(train_text)
-train_y = train_label
+    # Only extract the zip file if the glove file doesn't already exist
+    if not os.path.exists(glove_file):
+        with zipfile.ZipFile(file_name, 'r') as zip_ref:
+            zip_ref.extractall()
 
-# get the sentence embeddings for the test dataset
-test_x = vectorizer.transform(test_text)
-test_y = test_label
+    # Only convert the GloVe vectors to word2vec format if it hasn't already been done
+    if not os.path.exists(word2vec_file):
+        glove2word2vec(glove_file, word2vec_file)
 
-# train a Random Forest model
-model = sklearn.ensemble.RandomForestClassifier(n_estimators=200)
+    glove_model = KeyedVectors.load_word2vec_format(word2vec_file, binary=False)
+    
+    # set a word vectorizer
+    vectorizer = Word2VecVectorizer(glove_model)
+    
+    text = data[text_column].values.reshape(-1,1)
+    label = data[label_column].values.reshape(-1,1)
+    
+    text_list = text.tolist()
+    text_str = [item for sublist in text_list for item in sublist]
+    
+    label_list = label.tolist()
+    label_str = [item for sublist in label_list for item in sublist]
 
-model.fit(train_x, train_y)
-
-# accuracy report
-print("model accuracy:", model.score(test_x, test_y))
-
-predict_y = model.predict(test_x)
-
-print(sklearn.metrics.classification_report(test_y, predict_y, digits=4))
-
-# plot a confusion matrix
-sklearn.metrics.ConfusionMatrixDisplay.from_estimator(model, test_x, test_y)
+    # get the sentence embeddings for dataset
+    embeddings = vectorizer.fit_transform(text_str)
+    labels = label_str
+    
+    return pd.DataFrame({'Embeddings': embeddings.tolist(), 'Labels': labels})
