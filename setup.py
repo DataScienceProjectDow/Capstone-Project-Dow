@@ -10,7 +10,7 @@ print(f"Found packages {packages}")
 
 setup(
     name="nlpmaps",
-    version="1.0",
+    version="1.0.0",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/DataScienceProjectDow/nlpmaps",
