@@ -2,25 +2,26 @@ name: nlpmaps
 channels:
   - defaults
 dependencies:
+  - gensim
+  - jupyter
+  - keras
+  - nltk
+  - notebook
+  - numpy
+  - openpyxl
+  - pandas
+  - pip
+  - python
+  - requests
+  - scikit-learn
+  - scipy
+  - tensorflow
+  - tqdm
   - pip:
-      - tensorflow-text
-      - tf-models-official
-      - gensim
-      - numpy
-      - pandas
-      - scikit-learn
-      - matplotlib
-      - seaborn
-      - xgboost
-      - nltk
-      - spacy
-      - keras
-      - tensorflow_hub
-      - tensorflow
       - datasets
-      - requests
-      - unittest
       - fasttext
+      - nose2
       - optuna
-      - nltk
+      - tf-models-official
+      - spacy
       - wget
