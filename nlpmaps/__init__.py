@@ -6,4 +6,5 @@ from glove import glove_embedding
 from fasttext import fasttext_embedding
 from ELMo import get_embeddings as get_elmo_embeddings
 from bert import generate_bert_emebeddings
+from data_preprocessing import preprocessing
 from selection import find_optimal_method

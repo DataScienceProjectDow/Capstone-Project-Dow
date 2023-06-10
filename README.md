@@ -32,15 +32,15 @@ The minimum version of Python requried for this package is Python 3.6.
 
 The `data_preprocessing.py` script preprocesses your data by removing a customized list of stop words, removing punctuations, converting all letters to lowercase, and removing date and time in your data, based on a specific format, if applicable. The format can be easily changed based on the user's need. The use of `data_precessing.py` is optional. Note that it is not recommended to remove stop words for contextual embedding models.
 
-To realize the preprocessing step, first get the data ready in Excel .xlsx format, then in a Jupyter notebook, run the following code:
+To realize the preprocessing step, first get the data ready in `pd.DataFrame` format, then in a Jupyter notebook, run the following code:
 
 ```
 custom_words = set("word_a", "word_b") # customize the stop words on your need
 from data_preprocessing import preprocessing
-preprocessing(your_data, custom_words)
+preprocessing(your_data, "column name of text", custom_words)
 ```
 
-The script will generate a `preprocessed_data.xlsx` in the current directory.
+The script will output a dataframe of the preprecessed data.
 
 ### Word embedding models
 
@@ -69,7 +69,8 @@ In a Jupyter notebook, run the following code to get the table of metrics:
 
 ```
 from selection import find_optimal_method
-find_optimal_method(your_data, "column name of text", "column name of label", scoring_metric='your_metrics')
+find_optimal_method(
+  your_data, "column name of text", "column name of label", scoring_metric='your_metrics')
 ```
 
 Based on the generated table, user can choose the model they want and run the respective model script in [nlpmaps](./nlpmaps/) to get the embeddings.
