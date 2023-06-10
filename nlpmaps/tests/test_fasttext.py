@@ -39,25 +39,25 @@ class TestFastTextVectorizer(unittest.TestCase):
 
 class TestFastTextEmbedding(unittest.TestCase):
     @patch('os.path.exists')
-    @patch('pandas.read_excel')
     @patch('gensim.models.fasttext.load_facebook_vectors')
+
     def test_fasttext_embedding(
-        self, mock_load_facebook_vectors, mock_read_excel, mock_exists):
+        self, mock_load_facebook_vectors, mock_exists):
         
         # Mock the return values of the functions we're not testing
         mock_exists.return_value = False
-        mock_read_excel.return_value = pd.DataFrame(
-            {'text': ['This is a test sentence.', 'This is another test sentence.'], 'label': [1, 0]})
         mock_load_facebook_vectors.return_value = MagicMock()  # Mock the FastText model
         
-        path = 'dummy_path'
-        text_column = 'text'
-        label_column = 'label'
-        result = fasttext_embedding(path, text_column, label_column)
+        # Creating a mock DataFrame
+        data = pd.DataFrame({
+            'text_column': ['This is a test sentence', 'Another test sentence'],
+            'label_column': ['label1', 'label2']
+        })
 
-        # Check the shape of the returned data
-        self.assertEqual(result.shape[0], 2)  # The number of sentences we set
-        self.assertEqual(result.shape[1], 2)  # The number of columns in the dataframe ('Embeddings' and 'Labels')
+        # Running the fasttext_embedding function
+        embeddings = fasttext_embedding(data, 'text_column', 'label_column')
 
-        # Check that the returned data is a pandas DataFrame
-        self.assertIsInstance(result, pd.DataFrame)
+        # Checking that the function returns an array of the right shape
+        self.assertIsInstance(embeddings, np.ndarray)
+        self.assertEqual(embeddings.shape[0], len(data))
+        self.assertEqual(embeddings.shape[1], 300)

@@ -48,7 +48,6 @@ class TestWord2VecVectorizer(unittest.TestCase):
 
 class TestGloveEmbedding(unittest.TestCase):
     @patch('os.path.exists')
-    @patch('pandas.read_excel')
     @patch('zipfile.ZipFile')
     @patch('urllib.request.urlretrieve')
     @patch('glove.Word2VecVectorizer')
@@ -56,24 +55,24 @@ class TestGloveEmbedding(unittest.TestCase):
     
     def test_glove_embedding(
         self, mock_load_word2vec_format, mock_Word2VecVectorizer,
-        mock_urlretrieve, mock_ZipFile, mock_read_excel, mock_exists):
+        mock_urlretrieve, mock_ZipFile, mock_exists):
         
         # Mock the return values of the functions we're not testing
         mock_exists.return_value = False
-        mock_read_excel.return_value = pd.DataFrame(
-            {'text': ['This is a test sentence.', 'This is another test sentence.'], 'label': [1, 0]})
         mock_load_word2vec_format.return_value = MagicMock()  # Mock the word2vec model
         mock_Word2VecVectorizer.return_value = MagicMock()  # Mock the vectorizer
         mock_Word2VecVectorizer.return_value.fit_transform.return_value = np.zeros((2, 100))  # Assume 2 sentences, 100D vectors
 
-        path = 'dummy_path'
-        text_column = 'text'
-        label_column = 'label'
-        result = glove_embedding(path, text_column, label_column)
+        # Creating a mock DataFrame
+        data = pd.DataFrame({
+            'text_column': ['This is a test sentence', 'Another test sentence'],
+            'label_column': ['label1', 'label2']
+        })
 
-        # Check the shape of the returned data
-        self.assertEqual(result.shape[0], 2)  # The number of sentences we set
-        self.assertEqual(result.shape[1], 2)  # The number of columns in the dataframe ('Embeddings' and 'Labels')
+        # Running the glove_embedding function
+        embeddings = glove_embedding(data, 'text_column', 'label_column')
 
-        # Check that the returned data is a pandas DataFrame
-        self.assertIsInstance(result, pd.DataFrame)
+        # Checking that the function returns an array of the right shape
+        self.assertIsInstance(embeddings, np.ndarray)
+        self.assertEqual(embeddings.shape[0], len(data))
+        self.assertEqual(embeddings.shape[1], 100)
