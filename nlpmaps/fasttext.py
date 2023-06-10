@@ -60,4 +60,4 @@ def fasttext_embedding(data, text_column: str, label_column: str):
     vectorizer = FastTextVectorizer(fasttext_model)
     embeddings = vectorizer.transform(text_str)
     
-    return pd.DataFrame({'Embeddings': embeddings.tolist(), 'Labels': label_str})
+    return embeddings

@@ -56,8 +56,7 @@ class Word2VecVectorizer:
 
         return self.transform(data)
 
-def glove_embedding(path: str, text_column: str, label_column: str):
-    data = pd.read_excel(path)
+def glove_embedding(data, text_column: str, label_column: str):
     
     url = 'https://nlp.stanford.edu/data/glove.6B.zip'
     file_name = 'glove.6B.zip'
@@ -95,4 +94,4 @@ def glove_embedding(path: str, text_column: str, label_column: str):
     embeddings = vectorizer.fit_transform(text_str)
     labels = label_str
     
-    return pd.DataFrame({'Embeddings': embeddings.tolist(), 'Labels': labels})
+    return embeddings

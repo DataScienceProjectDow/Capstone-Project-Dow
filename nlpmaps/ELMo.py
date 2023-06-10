@@ -1,9 +1,11 @@
 import numpy as np
 import tensorflow as tf
 import tensorflow_hub as hub
+import os
 
 def get_embeddings(data, text):
-    elmo = hub.load('/Users/andrewsimon/Downloads/elmo_3')
+
+    elmo = hub.load('https://tfhub.dev/google/elmo/3?tf-hub-format=compressed')
 
     embeddings = []
 

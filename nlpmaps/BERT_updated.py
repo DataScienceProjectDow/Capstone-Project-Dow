@@ -82,6 +82,5 @@ def generate_bert_embeddings(df, text_column, label_column):
     
     # Convert embeddings and labels to numpy arrays
     embeddings = embeddings.numpy()
-    labels = labels.numpy()
     
-    return embeddings, labels
+    return embeddings
