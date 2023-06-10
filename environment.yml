@@ -17,6 +17,9 @@ dependencies:
   - scipy
   - tensorflow
   - tqdm
+  - gensim
+  - tqdm
+  - tensorflow_hub
   - pip:
       - datasets
       - fasttext
