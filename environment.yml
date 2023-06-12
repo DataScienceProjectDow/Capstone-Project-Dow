@@ -16,9 +16,9 @@ dependencies:
   - scikit-learn
   - scipy
   - tensorflow
+  - transformers
   - tqdm
   - gensim
-  - tqdm
   - tensorflow_hub
   - pip:
       - datasets
@@ -28,3 +28,5 @@ dependencies:
       - tf-models-official
       - spacy
       - wget
+      - matplotlib
+      - seaborn
